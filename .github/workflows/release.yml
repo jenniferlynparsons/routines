@@ -1,0 +1,40 @@
+name: Release
+
+# Builds Routines.app for Apple silicon and Intel Macs and attaches it to a GitHub release.
+# Start it in one of two ways:
+#   - Push a tag that starts with "v", for example v1.0.0.
+#   - Open the Actions tab, select Release, and click "Run workflow".
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag to create, for example v1.0.0"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Routines.app
+        run: UNIVERSAL=1 bash build.sh
+
+      - name: Zip the app
+        run: ditto -c -k --keepParent Routines.app Routines-macOS.zip
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.version || github.ref_name }}
+        run: |
+          gh release create "$TAG" Routines-macOS.zip \
+            --title "Routines $TAG" \
+            --generate-notes \
+            --target "$GITHUB_SHA"
