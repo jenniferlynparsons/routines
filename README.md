@@ -139,6 +139,21 @@ All colors are in `Sources/Routines/Theme.swift`.
 
 After you change a color, run `bash build.sh --install`.
 
+## Take screenshots
+
+Demo mode shows sample routines. It does not read or change your own data.
+
+1. Quit Routines.
+2. In Terminal, run:
+
+   ```
+   open /Applications/Routines.app --args --demo
+   ```
+
+3. Press ⇧⌘4, then press Space.
+4. Click the Routines window. macOS saves the screenshot to your Desktop.
+5. Quit Routines. The demo data goes away.
+
 ## Make a release
 
 The Release workflow builds the app and attaches it to a GitHub release. The app runs on Apple silicon and Intel Macs. To start the workflow, do one of these:

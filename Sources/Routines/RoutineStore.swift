@@ -15,16 +15,30 @@ final class RoutineStore: ObservableObject {
     private let stateURL: URL
     private var routinesModified: Date?
 
+    /// Launched with --demo: sample data in a throwaway folder, for screenshots.
+    let isDemo: Bool
+
     init() {
         let fm = FileManager.default
-        let documents = fm.urls(for: .documentDirectory, in: .userDomainMask).first
-            ?? fm.homeDirectoryForCurrentUser
-        folderURL = documents.appendingPathComponent("Routines", isDirectory: true)
+        let demo = ProcessInfo.processInfo.arguments.contains("--demo")
+        isDemo = demo
+        if demo {
+            folderURL = fm.temporaryDirectory
+                .appendingPathComponent("RoutinesDemo-\(UUID().uuidString)", isDirectory: true)
+        } else {
+            let documents = fm.urls(for: .documentDirectory, in: .userDomainMask).first
+                ?? fm.homeDirectoryForCurrentUser
+            folderURL = documents.appendingPathComponent("Routines", isDirectory: true)
+        }
         routinesURL = folderURL.appendingPathComponent("routines.txt")
         stateURL = folderURL.appendingPathComponent("state.json")
         state = SavedState(day: DayKey.key(Date()), checked: [], carried: [])
 
         prepareFolder()
+        if demo {
+            state = Self.demoState()
+            saveState()
+        }
         loadRoutines()
         loadState()
         refresh()
@@ -148,6 +162,29 @@ final class RoutineStore: ObservableObject {
 
     private func modificationDate(of url: URL) -> Date? {
         (try? FileManager.default.attributesOfItem(atPath: url.path))?[.modificationDate] as? Date
+    }
+
+    // MARK: Demo data
+
+    /// A believable mid-morning: a few items done, a carried timesheet, a partly done Top 5.
+    private static func demoState(today: Date = Date()) -> SavedState {
+        let calendar = Calendar.current
+        var lastFriday = calendar.startOfDay(for: today)
+        repeat {
+            lastFriday = calendar.date(byAdding: .day, value: -1, to: lastFriday) ?? lastFriday
+        } while calendar.component(.weekday, from: lastFriday) != 6
+
+        return SavedState(
+            day: DayKey.key(today),
+            checked: ["Morning|Check email", "Morning|Check team chat", "Morning|Choose today's Top 5"],
+            carried: [CarriedItem(itemID: "Afternoon|Submit timesheet", text: "Submit timesheet",
+                                  originDay: DayKey.key(lastFriday))],
+            priorities: [
+                Priority(text: "Finish the planning doc draft", done: true),
+                Priority(text: "Review two pull requests", done: false),
+                Priority(text: "Send the project status update", done: false),
+                Priority(text: "Book a room for the team offsite", done: false),
+            ])
     }
 
     // MARK: First-run file
