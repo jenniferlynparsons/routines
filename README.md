@@ -1,3 +1,6 @@
+<img width="328" height="629" alt="Screenshot 2026-11-16 at 5 08 36 PM" src="https://github.com/user-attachments/assets/0c793e7a-02bb-4d02-a12f-b93a0395209e" />
+
+
 # Routines
 
 Routines is a small checklist app for the Mac. It shows your work routines in a floating window, like Stickies.
