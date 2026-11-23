@@ -9,7 +9,7 @@ Routines is a small checklist app for the Mac. It shows your work routines in a 
 - Some items show only on some days of the week.
 - Habits reset each day.
 - Obligations stay on the list until you check them off.
-- A Top 5 card holds your priorities for the day.
+- A Top 5 card holds your priorities for the week.
 
 Routines needs macOS 14 (Sonoma) or later.
 
@@ -70,9 +70,9 @@ macOS can ask if Routines can use your Documents folder. Click **Allow**. The ap
 - **Edit your routines:** click the pencil at the top right, or press ⌘E. Your routines file opens in TextEdit.
 - **Show your files in Finder:** press ⇧⌘E.
 
-### Top 5 Today
+### Top 5 This Week
 
-The Top 5 card is at the top of the window. Type up to five priorities into it.
+The Top 5 card is at the top of the window. Type up to five priorities for the week into it. The priorities stay on the card from Monday to Sunday.
 
 - To mark a priority as done, click its circle.
 - To edit a finished priority, click its circle to uncheck it. Then edit the text.
@@ -84,7 +84,7 @@ The Top 5 card is at the top of the window. Type up to five priorities into it.
 - **Later sections stay closed** until you open them or their start time arrives.
 - **Habits reset at midnight.** An unchecked habit does not move to the next day.
 - **Obligations carry over.** An obligation that you did not check off moves to the top of the next morning. A label shows the day it came from, for example "from Fri". The app does this even if it was closed on that day.
-- **Priorities roll forward.** At midnight, the app removes finished priorities. Unfinished priorities move to the top of the card for the next day.
+- **Priorities last all week.** On Monday, the app removes finished priorities. Unfinished priorities move to the top of the card for the new week.
 - **Empty sections do not show.** If a section has no items for today, the app hides it.
 
 ## Write your routines
@@ -102,7 +102,7 @@ Example:
 ```
 # Morning @ 8:00
 Check email
-Choose today's Top 5
+Choose this week's Top 5 [Mon]
 
 # Afternoon @ 12:00
 Submit timesheet [Fri, carry]

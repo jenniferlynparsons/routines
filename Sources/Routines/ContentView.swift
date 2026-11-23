@@ -210,7 +210,7 @@ struct PrioritiesSection: View {
                 Image(systemName: "star.fill")
                     .font(.system(size: 9, weight: .bold))
                     .foregroundStyle(Theme.accent)
-                Text("TOP 5 TODAY")
+                Text("TOP 5 THIS WEEK")
                     .font(.system(size: 11, weight: .semibold))
                     .tracking(0.9)
                     .foregroundStyle(Theme.strong)
@@ -266,7 +266,7 @@ struct PriorityRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 TextField("", text: textBinding,
-                          prompt: Text(index == 0 ? "Most important thing today" : "Priority \(index + 1)")
+                          prompt: Text(index == 0 ? "Most important thing this week" : "Priority \(index + 1)")
                             .foregroundStyle(Theme.faint))
                     .textFieldStyle(.plain)
                     .font(.system(size: 13.5))
