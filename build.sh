@@ -19,24 +19,24 @@ if [ "${UNIVERSAL:-}" = "1" ]; then
   ARCH_FLAGS="--arch arm64 --arch x86_64"
 fi
 
-echo "Compiling…"
+echo "Compiling..."
 swift build -c release $ARCH_FLAGS
 BIN="$(swift build -c release $ARCH_FLAGS --show-bin-path)/Routines"
 
-echo "Packaging $APP…"
-rm -rf "$APP"
-mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp "$BIN" "$APP/Contents/MacOS/Routines"
-cp Support/Info.plist "$APP/Contents/Info.plist"
-iconutil -c icns Support/AppIcon.iconset -o "$APP/Contents/Resources/AppIcon.icns"
-codesign --force --sign - "$APP" >/dev/null 2>&1 || true
+echo "Packaging ${APP}..."
+rm -rf "${APP}"
+mkdir -p "${APP}/Contents/MacOS" "${APP}/Contents/Resources"
+cp "$BIN" "${APP}/Contents/MacOS/Routines"
+cp Support/Info.plist "${APP}/Contents/Info.plist"
+iconutil -c icns Support/AppIcon.iconset -o "${APP}/Contents/Resources/AppIcon.icns"
+codesign --force --sign - "${APP}" >/dev/null 2>&1 || true
 
-echo "Built $(pwd)/$APP"
+echo "Built $(pwd)/${APP}"
 
 if [ "${1:-}" = "--install" ]; then
   osascript -e 'quit app "Routines"' >/dev/null 2>&1 || true
-  rm -rf "/Applications/$APP"
-  cp -R "$APP" /Applications/
-  echo "Installed to /Applications/$APP"
-  open "/Applications/$APP"
+  rm -rf "/Applications/${APP}"
+  cp -R "${APP}" /Applications/
+  echo "Installed to /Applications/${APP}"
+  open "/Applications/${APP}"
 fi
