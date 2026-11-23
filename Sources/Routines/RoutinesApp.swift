@@ -26,5 +26,9 @@ struct RoutinesApp: App {
                     .keyboardShortcut("e", modifiers: [.command, .shift])
             }
         }
+
+        Settings {
+            SettingsView()
+        }
     }
 }

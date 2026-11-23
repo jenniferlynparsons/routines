@@ -5,6 +5,7 @@ import Combine
 struct ContentView: View {
     @EnvironmentObject var store: RoutineStore
     @AppStorage("floatOnTop") var floatOnTop = true
+    @ObservedObject var palettes = PaletteStore.shared
 
     let ticker = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
@@ -48,6 +49,8 @@ struct ContentView: View {
             }
             .scrollIndicators(.never)
         }
+        // Rebuild the window's views when the palette changes, so every color updates.
+        .id(palettes.current.colors)
         .ignoresSafeArea(.container, edges: .top)
         .frame(minWidth: 260, minHeight: 260)
         .background(
@@ -83,6 +86,7 @@ struct ContentView: View {
             IconButton(systemName: "square.and.pencil", help: "Edit routines (⌘E)") {
                 store.openRoutinesFile()
             }
+            PaletteButton()
         }
         .frame(height: 30)
         .padding(.horizontal, 8)
@@ -452,6 +456,28 @@ struct ProblemBanner: View {
         .padding(10)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(RoundedRectangle(cornerRadius: 8).fill(Color.orange.opacity(0.12)))
+    }
+}
+
+/// Opens the Settings window, where the palette lives.
+struct PaletteButton: View {
+    @StateObject var hover = HoverState()
+
+    var body: some View {
+        SettingsLink {
+            Image(systemName: "paintpalette")
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(Theme.muted)
+                .frame(width: 26, height: 24)
+                .background(
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .fill(Theme.ink.opacity(hover.isOn ? 0.08 : 0))
+                )
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .onHover { hover.isOn = $0 }
+        .help("Colors (⌘,)")
     }
 }
 

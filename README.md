@@ -69,6 +69,7 @@ macOS can ask if Routines can use your Documents folder. Click **Allow**. The ap
 - **Float the window:** click the pin at the top right. The window then stays above other windows. Click the pin again to stop.
 - **Edit your routines:** click the pencil at the top right, or press ⌘E. Your routines file opens in TextEdit.
 - **Show your files in Finder:** press ⇧⌘E.
+- **Change the colors:** click the palette at the top right, or press ⌘,.
 
 ### Top 5 This Week
 
@@ -135,12 +136,30 @@ To back up your data, copy this folder.
 
 ## Change the colors
 
-All colors are in `Sources/Routines/Theme.swift`.
+1. Click the palette button at the top right, or press ⌘,.
+2. Click a palette in the list.
 
-- `Palette` holds the five base colors.
-- `Theme` gives each color a job, in light mode and in dark mode.
+The window changes color at once. The app remembers your choice.
 
-After you change a color, run `bash build.sh --install`.
+### Use your own colors
+
+1. In the Custom palette field, type five hex codes, for example `#93b7be #554348 #d4f5f5 #8c9a9e #747578`. You can also paste a link from coolors.co.
+2. Click **Use These Colors**.
+
+The app gives each color a job:
+
+| Color | Light mode | Dark mode |
+|---|---|---|
+| The darkest color | Text | Background tint |
+| The lightest color | Background tint | Text |
+| The most colorful of the other three | Check circles, progress ring, badges | Check circles, progress ring, badges |
+| The two remaining colors | Times, counts, and finished items | Times, counts, and finished items |
+
+If text or check marks will be hard to read, the Settings window shows a warning.
+
+### For developers
+
+The preset palettes and the rules that give each color a job are in `Sources/Routines/Theme.swift`.
 
 ## Take screenshots
 
