@@ -43,7 +43,7 @@ struct SavedState: Codable, Equatable {
     var day: String
     var checked: Set<String>
     var carried: [CarriedItem]
-    /// Today's top priorities, typed in the app.
+    /// This week's top priorities, typed in the app.
     var priorities: [Priority]
 
     init(day: String, checked: Set<String>, carried: [CarriedItem], priorities: [Priority] = []) {
@@ -262,10 +262,26 @@ enum Schedule {
             }
         }
 
-        // Unfinished priorities move up and wait for tomorrow's review; finished ones clear.
-        let priorities = state.priorities.filter { !$0.done && !$0.isBlank }
+        // Priorities last the whole week. When a new week starts, finished ones
+        // clear and unfinished ones move up for the next week's review.
+        let priorities: [Priority]
+        if let lastDay = DayKey.date(state.day),
+           weekKey(lastDay, calendar: calendar) == weekKey(today, calendar: calendar) {
+            priorities = state.priorities
+        } else {
+            priorities = state.priorities.filter { !$0.done && !$0.isBlank }
+        }
 
         return SavedState(day: todayKey, checked: [], carried: carried, priorities: priorities)
+    }
+
+    /// The Monday that starts the week containing `date`, as yyyy-MM-dd.
+    static func weekKey(_ date: Date, calendar: Calendar = .current) -> String {
+        var mondayFirst = calendar
+        mondayFirst.firstWeekday = 2
+        let start = mondayFirst.dateInterval(of: .weekOfYear, for: date)?.start
+            ?? mondayFirst.startOfDay(for: date)
+        return DayKey.key(start)
     }
 
     /// Today's sections. Carried items sit at the top of the first section.

@@ -176,7 +176,7 @@ final class RoutineStore: ObservableObject {
 
         return SavedState(
             day: DayKey.key(today),
-            checked: ["Morning|Check email", "Morning|Check team chat", "Morning|Choose today's Top 5"],
+            checked: ["Morning|Check email", "Morning|Check team chat", "Morning|Choose this week's Top 5"],
             carried: [CarriedItem(itemID: "Afternoon|Submit timesheet", text: "Submit timesheet",
                                   originDay: DayKey.key(lastFriday))],
             priorities: [
@@ -206,7 +206,7 @@ final class RoutineStore: ObservableObject {
     # Morning @ 8:00
     Check email
     Check team chat
-    Choose today's Top 5
+    Choose this week's Top 5 [Mon]
     Prep for meetings
 
     # Afternoon @ 12:00
